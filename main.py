@@ -10,10 +10,10 @@ from webdriver_manager.chrome import ChromeDriverManager
 options = Options()
 options.headless = True
 
-def run():
-    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options = options)
-    driver.get("https://www.google.com")
-    print(driver.page_source)
+driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options = options)
+driver.get("https://www.google.com")
+print(driver.page_source)
+
     #print("hello world")
 
 #chrome_options = webdriver.ChromeOptions()
@@ -24,5 +24,3 @@ def run():
 #driver = webdriver.Chrome(executable_path=os.environ.get('CHROMEDRIVER_PATH'), chrome_options=chr)
 #driver.get('https://www.google.come')
 
-if __name__ == "main":
-    run()
