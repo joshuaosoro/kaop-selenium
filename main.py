@@ -11,7 +11,8 @@ from selenium.webdriver.common.by import By
 options = Options()
 options.headless = True
 
-driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options = options)
+driver = webdriver.Chrome(executable_path="C:\\Drivers\\chromedriver_win32\\chromedriver.exe")
+#driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options = options)
 driver.get("http://kaop.co.ke")
 driver.implicitly_wait(30)
 
@@ -22,11 +23,11 @@ select_constituency = Select(driver.find_element(By.ID, 'Constituency'))
 select_constituency.select_by_value("98")
 
 select_ward = Select(driver.find_element(By.ID, 'Ward'))
-select_ward.select_by_value(487)
+select_ward.select_by_value("487")
 
 driver.find_element(By.XPATH, '//div/input').click()
 
-imgs = driver.find_element(By.XPATH, '//div/img')
+imgs = driver.find_elements(By.XPATH, '//div/img')
 containers = driver.find_elements(By.CLASS_NAME, 'weatherbox')
 
 date = []
@@ -47,6 +48,7 @@ for c in containers:
     humidity.append(elem[6].split(':')[1])
     wind_speed.append(elem[7].split(':')[1])
 
+
 hrefs = [i.get_attribute('src') for i in imgs]
 
 weather_dict = {
@@ -63,6 +65,7 @@ weather_dict = {
 weather_df = pd.DataFrame(weather_dict)
 weather_df
 
+# data cleaning
 weather_df['min_temp'] = weather_df['min_temp'].str.extract('(\d+)')
 weather_df['max_temp'] = weather_df['max_temp'].str.extract('(\d+)')
 weather_df['rainfall_chance'] = weather_df['rainfall_chance'].str.extract('(\d+)')
