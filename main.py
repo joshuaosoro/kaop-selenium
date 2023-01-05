@@ -74,8 +74,14 @@ weather_df['rainfall_chance'] = weather_df['rainfall_chance'].str.extract('(\d+)
 weather_df['rainfall_amount'] = weather_df['rainfall_amount'].str.extract('(\d+)')
 weather_df['humidity'] = weather_df['humidity'].str.extract('(\d+)')
 weather_df['wind_speed'] = weather_df['wind_speed'].str.extract('(\d+)')
-weather_df
 
+# take care of the data types
+weather_df['date'] = pd.to_datetime(weather_df['date']) 
+weather_df['min_temp'] = weather_df['min_temp'].astype(int)
+weather_df['rainfall_chance'] = weather_df['rainfall_chance'].astype(int)
+weather_df['rainfall_amount'] = weather_df['rainfall_amount'].astype(int)
+weather_df['humidity'] = weather_df['humidity'].astype(int)
+weather_df['wind_speed'] = weather_df['wind_speed'].astype(int)
 
 print(weather_df)
 
