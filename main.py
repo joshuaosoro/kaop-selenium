@@ -1,4 +1,7 @@
+from sqlalchemy import create_engine, MetaData, Date, String, Integer, Column, Table
 import pandas as pd
+import pymysql
+pymysql.install_as_MySQLdb()
 
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
@@ -11,8 +14,7 @@ from selenium.webdriver.common.by import By
 options = Options()
 options.headless = True
 
-driver = webdriver.Chrome(executable_path="C:\\Drivers\\chromedriver_win32\\chromedriver.exe")
-#driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options = options)
+driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options = options)
 driver.get("http://kaop.co.ke")
 driver.implicitly_wait(30)
 
@@ -77,4 +79,32 @@ weather_df
 
 print(weather_df)
 
-  
+## send data to the database
+credentials = {
+    "Host": "sql7.freesqldatabase.com",
+    "Database_name": "sql7588148",
+    "Database_user": "sql7588148",
+    "Database_password": "dkeHeFUvie",
+    "Port_number": 3306
+}
+
+conn = f'mysql://{credentials["Database_user"]}:{credentials["Database_password"]}@{credentials["Host"]}:3306/{credentials["Database_name"]}'
+engine = create_engine(conn)
+metadata_obj = MetaData()
+
+
+weather = Table(
+    'weather', 
+    metadata_obj,
+    Column('id', Integer, primary_key=True), 
+    Column("date", Date), 
+    Column("min_temp", Integer),
+    Column("max_temp", Integer),
+    Column("rainfall_chance", Integer),
+    Column("rainfall_amount", Integer),
+    Column("humidity", Integer),
+    Column("img", String(100)),
+)
+
+weather.drop(engine, checkfirst=True) # drop table before adding in fresh data
+weather_df.to_sql("weather", engine)  # add the new data to the weather
