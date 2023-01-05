@@ -13,7 +13,7 @@ options.headless = True
 
 driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options = options)
 driver.get("http://kaop.co.ke")
-driver.implicity_wait(30)
+driver.implicitly_wait(30)
 
 select_county = Select(driver.find_element(By.ID, 'County'))
 select_county.select_by_value("43")
