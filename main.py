@@ -54,7 +54,7 @@ for c in containers:
 
 
 hrefs = [i.get_attribute('src') for i in imgs]
-formated_dates = [ datetime.strptime(d.replace("-", ""), "%d%m%Y") for d in date]   
+formated_dates = [ datetime.strptime(d.strip().replace("-", ""), "%d%m%Y") for d in date]   
 
 weather_dict = {
     'date': formated_dates,
