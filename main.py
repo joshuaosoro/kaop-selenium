@@ -14,9 +14,9 @@ from selenium.webdriver.common.by import By
 # headless-mode
 options = Options()
 options.headless = True
-options.binary_location = os.environ.get('GOOGLE_CHROME_BIN')
+#options.binary_location = os.environ.get('GOOGLE_CHROME_BIN')
 
-driver = webdriver.Chrome(executable_path=os.environ.get('CHROMEDRIVER_PATH'), options = options)
+driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
 driver.get("http://kaop.co.ke")
 driver.implicitly_wait(30)
 
