@@ -1,5 +1,6 @@
 from sqlalchemy import create_engine, MetaData, Date, String, Integer, Column, Table
 import pandas as pd
+import os
 import pymysql
 pymysql.install_as_MySQLdb()
 
@@ -13,8 +14,9 @@ from selenium.webdriver.common.by import By
 # headless-mode
 options = Options()
 options.headless = True
+options.binary_location = os.environ.get('GOOGLE_CHROME_BIN')
 
-driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options = options)
+driver = webdriver.Chrome(executable_path=os.environ.get('CHROMEDRIVER_PATH'), options = options)
 driver.get("http://kaop.co.ke")
 driver.implicitly_wait(30)
 
