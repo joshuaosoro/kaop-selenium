@@ -1,5 +1,6 @@
 from sqlalchemy import create_engine, MetaData, Date, String, Integer, Column, Table
 import pandas as pd
+from datetime import datetime
 import pymysql
 pymysql.install_as_MySQLdb()
 
@@ -53,9 +54,10 @@ for c in containers:
 
 
 hrefs = [i.get_attribute('src') for i in imgs]
+formated_dates = [ datetime.strptime(d.replace("-", ""), "%d%m%Y") for d in date]   
 
 weather_dict = {
-    'date': date,
+    'date': formated_dates,
     'min_temp': min_temp,
     'max_temp':max_temp,
     'rainfall_chance': rainfall_chance,
@@ -77,7 +79,7 @@ weather_df['humidity'] = weather_df['humidity'].str.extract('(\d+)')
 weather_df['wind_speed'] = weather_df['wind_speed'].str.extract('(\d+)')
 
 # take care of the data types
-weather_df['date'] = pd.to_datetime(weather_df['date']) 
+weather_df['date'] = formated_dates #pd.to_datetime(weather_df['date']) 
 weather_df['min_temp'] = weather_df['min_temp'].astype(int)
 weather_df['max_temp'] = weather_df['max_temp'].astype(int)
 weather_df['rainfall_chance'] = weather_df['rainfall_chance'].astype(int)
@@ -85,8 +87,7 @@ weather_df['rainfall_amount'] = weather_df['rainfall_amount'].astype(int)
 weather_df['humidity'] = weather_df['humidity'].astype(int)
 weather_df['wind_speed'] = weather_df['wind_speed'].astype(int)
 
-for d in date:
-    print(f"{d}\n")
+print(weather_df)
 
 ## send data to the database
 credentials = {
