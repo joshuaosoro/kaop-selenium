@@ -1,6 +1,5 @@
 from sqlalchemy import create_engine, MetaData, Date, String, Integer, Column, Table
 import pandas as pd
-import os
 import pymysql
 pymysql.install_as_MySQLdb()
 
@@ -86,7 +85,8 @@ weather_df['rainfall_amount'] = weather_df['rainfall_amount'].astype(int)
 weather_df['humidity'] = weather_df['humidity'].astype(int)
 weather_df['wind_speed'] = weather_df['wind_speed'].astype(int)
 
-print(weather_df)
+for d in date:
+    print(f"{d}\n")
 
 ## send data to the database
 credentials = {
