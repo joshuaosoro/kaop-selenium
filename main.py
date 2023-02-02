@@ -1,5 +1,6 @@
 from sqlalchemy import create_engine, MetaData, Date, String, Integer, Column, Table
 import pandas as pd
+import configparser
 from datetime import datetime
 import pymysql
 pymysql.install_as_MySQLdb()
@@ -89,16 +90,17 @@ weather_df['wind_speed'] = weather_df['wind_speed'].astype(int)
 
 print(weather_df)
 
-## send data to the database
-credentials = {
-    "Host": "sql7.freesqldatabase.com",
-    "Database_name": "sql7588148",
-    "Database_user": "sql7588148",
-    "Database_password": "dkeHeFUvie",
-    "Port_number": 3306
-}
+config = configparser.ConfigParser()
+config.read("config.ini")
 
-conn = f'mysql://{credentials["Database_user"]}:{credentials["Database_password"]}@{credentials["Host"]}:3306/{credentials["Database_name"]}'
+host = config['DEFAULT']['Host']
+database = config['DEFAULT']['Database_name']
+user = config['DEFAULT']['Database_user']
+password = config['DEFAULT']['Database_password']
+port = config['DEFAULT']['Port_number']
+## send data to the database
+
+conn = f'mysql://{user}:{password}@{host}:3306/{database}'
 engine = create_engine(conn)
 metadata_obj = MetaData()
 
